@@ -85,7 +85,7 @@ pytest tests/boundary -q   # AC-*, B-*
 ### RED 완료 확인
 
 - [x] `tests/`에 계약 ID 기반 테스트 작성 완료
-- [ ] 커밋: `test(RED): INV-*, E-*, AC-*` 형식, 계약 ID 포함
+- [x] 커밋: `test(RED): INV-*, E-*, AC-*` 형식, 계약 ID 포함
 
 ---
 
@@ -140,7 +140,7 @@ RED에서 실패한 테스트를 **최소 구현**으로 통과시킨다. `src/`
 - [x] 과잉 구현 없음 — RED 테스트를 통과하는 최소 코드만
 - [x] 구현 파일에 계약 ID 주석 (`# AC-2`, `# INV-4`)
 - [x] **NF-2** — `entity/`, `control/`, `boundary/` 모듈 분리
-- [ ] 커밋: `feat(GREEN): AC-*, INV-*` 형식, 계약 ID 포함
+- [x] 커밋: `feat(GREEN): AC-*, INV-*` 형식, 계약 ID 포함
 
 ---
 
