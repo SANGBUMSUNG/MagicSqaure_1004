@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MagicSquare 1004</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --border: #2d3a4f;
+      --text: #e7ecf3;
+      --muted: #8b9bb4;
+      --accent: #3d8bfd;
+      --ok: #3dd68c;
+      --fail: #f07178;
+      --blank: #2a3548;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(ellipse at top, #1a2744 0%, var(--bg) 55%);
+      color: var(--text);
+      padding: 2rem 1rem;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    h1 { margin: 0 0 0.25rem; font-size: 1.75rem; }
+    .sub { color: var(--muted); margin-bottom: 1.5rem; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-width: 320px;
+      margin: 0 auto 1rem;
+    }
+    .grid input {
+      width: 100%;
+      aspect-ratio: 1;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #121a26;
+      color: var(--text);
+    }
+    .grid input.blank { background: var(--blank); color: var(--accent); }
+    .grid input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .primary { background: var(--accent); color: #fff; }
+    .secondary { background: #2a3548; color: var(--text); }
+    .samples { margin-top: 0.75rem; text-align: center; }
+    .samples button { font-size: 0.85rem; padding: 0.45rem 0.75rem; }
+    .msg { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    .msg.error { background: #3a2228; color: var(--fail); border: 1px solid #5c3038; }
+    .msg.info { background: #1e2a3d; color: #9ec5fe; border: 1px solid #2d4a6f; }
+    .result {
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      background: #0d1219;
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .badge.ok { background: #1a3d2e; color: var(--ok); }
+    .badge.fail { background: #3d2228; color: var(--fail); }
+    .meta { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
+    .legend { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>MagicSquare 1004</h1>
+    <p class="sub">4×4 부분 마방진 · 빈칸 0 · 1~16 · 마법합 {{ magic_sum }}</p>
+
+    {% if error %}
+    <div class="msg error">{{ error }}</div>
+    {% endif %}
+    {% if info %}
+    <div class="msg info">{{ info }}</div>
+    {% endif %}
+
+    <div class="panel">
+      <form method="post">
+        <p class="legend">0 = 빈칸 · 각 행·열·대각선 합 = {{ magic_sum }}</p>
+        <div class="grid">
+          {% for row in range(size) %}
+            {% for col in range(size) %}
+              {% set val = grid[row][col] %}
+              <input
+                type="number"
+                name="cell_{{ row }}_{{ col }}"
+                min="0"
+                max="16"
+                value="{{ val }}"
+                class="{% if val == 0 %}blank{% endif %}"
+                aria-label="row {{ row }} col {{ col }}"
+              >
+            {% endfor %}
+          {% endfor %}
+        </div>
+
+        <div class="actions">
+          <button type="submit" name="action" value="solve" class="primary">풀이 + 검증</button>
+          <button type="submit" name="action" value="validate" class="secondary">검증만</button>
+        </div>
+
+        <div class="actions samples">
+          <button type="submit" name="action" value="example" class="secondary">예시 퍼즐</button>
+          <button type="submit" name="action" value="diagonal_fail" class="secondary">대각선 실패 예시</button>
+          <button type="submit" name="action" value="duplicate" class="secondary">중복 숫자 예시</button>
+        </div>
+      </form>
+    </div>
+
+    {% if result is not none %}
+    <div class="panel">
+      {% if result.is_complete %}
+      <span class="badge ok">완료</span>
+      {% else %}
+      <span class="badge fail">미완료</span>
+      {% endif %}
+
+      {% if blanks %}
+      <p class="meta">발견한 빈칸: {{ blanks }}</p>
+      {% endif %}
+
+      <div class="result">{{ display }}</div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>

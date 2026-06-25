@@ -14,6 +14,29 @@ pytest tests/entity -q     # INV-*, E-*
 pytest tests/boundary -q   # AC-*, B-*
 ```
 
+## 브라우저 UI
+
+```bash
+# Flask 설치 (최초 1회)
+python -m pip install -r requirements-web.txt --trusted-host pypi.org --trusted-host files.pythonhosted.org
+
+# 서버 실행 (프로젝트 루트)
+$env:PYTHONPATH = "src"    # PowerShell
+python src/app.py
+```
+
+브라우저에서 **http://127.0.0.1:5000** 접속.
+
+| 버튼 | 동작 |
+|------|------|
+| **풀이 + 검증** | 빈칸 2곳 채우고 10선분 검증 |
+| **검증만** | 현재 격자 그대로 검증 |
+| **예시 퍼즐** | 과제 예시 (빈칸 2개) |
+| **대각선 실패 예시** | AC-2 Mom Test 재현 |
+| **중복 숫자 예시** | F4 집합 오류 |
+
+격자 칸: `0` = 빈칸, `1~16` = 숫자.
+
 ## 규칙 요약
 
 | 단계 | 수정 범위 | 원칙 |
