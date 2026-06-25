@@ -1,14 +1,7 @@
 """pytest 공통 fixture."""
 
-import sys
-from pathlib import Path
-
-# src/ 를 import 경로에 추가 (entity, control, boundary)
-_SRC = Path(__file__).resolve().parents[1] / "src"
-if str(_SRC) not in sys.path:
-    sys.path.insert(0, str(_SRC))
-
 import pytest
+
 from grids import (
     BLANK_REMAINING_GRID,
     DUPLICATE_GRID,

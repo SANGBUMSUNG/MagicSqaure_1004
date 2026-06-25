@@ -6,6 +6,5 @@ from entity.magic_square import MagicSquare
 
 
 class MissingFinder:
-  def find(self, square: MagicSquare) -> list[tuple[int, int]]:
-    blanks = [(cell.row, cell.col) for cell in square.cells if cell.is_empty()]
-    return blanks  # C-1
+    def find(self, square: MagicSquare) -> list[tuple[int, int]]:
+        return square.blank_positions()  # C-1, INV-6

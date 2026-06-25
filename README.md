@@ -150,8 +150,19 @@ RED에서 실패한 테스트를 **최소 구현**으로 통과시킨다. `src/`
 M1 RED (INV, E, C-3) → M1 GREEN   ✅
 M2 RED (C-1, C-2, AC-1,4) → M2 GREEN   ✅
 M3 RED (AC-2~6, B-1~3) → M3 GREEN   ✅
-REFACTOR (구조만, pytest -q 유지)   ← 다음
+REFACTOR (구조만, pytest -q 유지)   ✅
 ```
+
+## REFACTOR 체크리스트
+
+> **상태:** REFACTOR 완료 — `pytest -q` **34 passed** (동작 불변)
+
+- [x] 도메인 로직 Entity로 이동 (`blank_positions`, `iter_line_sums`, `has_full_value_set`)
+- [x] Control 중복 제거 (`MissingFinder` → Entity 위임, `SquareValidator` 단순화)
+- [x] `src/` 들여쓰기 4칸 통일 (entity, control, boundary)
+- [x] 중복 경로 설정 제거 (`tests/conftest.py` sys.path, 루트 `conftest.py`)
+- [x] `pytest -q` 통과 확인
+- [ ] 커밋: `refactor: ...` 형식
 
 ## 관련 문서
 
