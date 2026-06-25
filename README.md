@@ -162,7 +162,7 @@ REFACTOR (구조만, pytest -q 유지)   ✅
 - [x] `src/` 들여쓰기 4칸 통일 (entity, control, boundary)
 - [x] 중복 경로 설정 제거 (`tests/conftest.py` sys.path, 루트 `conftest.py`)
 - [x] `pytest -q` 통과 확인
-- [ ] 커밋: `refactor: ...` 형식
+- [x] 커밋: `refactor: ...` 형식
 
 ## 관련 문서
 
